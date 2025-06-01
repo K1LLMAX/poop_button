@@ -21,4 +21,3 @@ missing module named winreg - imported by importlib._bootstrap_external (conditi
 missing module named nt - imported by shutil (conditional), importlib._bootstrap_external (conditional), ntpath (optional), _colorize (delayed, conditional, optional), os (delayed, conditional, optional)
 missing module named _winapi - imported by encodings (delayed, conditional, optional), shutil (conditional), ntpath (optional), subprocess (conditional)
 missing module named msvcrt - imported by subprocess (optional)
-missing module named pygame - imported by /home/max/Downloads/poop_button/poop_button.py (top-level)

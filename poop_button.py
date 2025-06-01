@@ -1,31 +1,50 @@
-import tkinter as tk
-from tkinter import messagebox
-from tkinter import PhotoImage
-import pygame
+#!/usr/bin/env python3
+"""
+A simple GUI application with poop and pee buttons that play sounds when clicked.
+"""
+
+# Standard library imports
 import os
+import sys
+import subprocess
+from pathlib import Path
 
-# Initialize pygame mixer
-pygame.mixer.init()
+# Third-party imports
+import tkinter as tk
+from tkinter import messagebox, PhotoImage
 
-# Path to the fart sound
-FART_SOUND = os.path.join(os.path.dirname(__file__), 'fart.mp3')
-PEE_SOUND = os.path.join(os.path.dirname(__file__), 'pee.mp3')
-POOP_IMAGE = os.path.join(os.path.dirname(__file__), 'poop.png')
-PEE_IMAGE = os.path.join(os.path.dirname(__file__), 'pee.png')
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
+
+# Resource paths
+FART_SOUND = resource_path('fart.mp3')
+PEE_SOUND = resource_path('pee.mp3')
+POOP_IMAGE = resource_path('poop.png')
+PEE_IMAGE = resource_path('pee.png')
+
+def play_sound(sound_file):
+    """Play a sound file using the system's default audio player"""
+    try:
+        if sys.platform.startswith('linux'):
+            subprocess.Popen(['paplay', sound_file])
+        elif sys.platform.startswith('win'):
+            os.startfile(sound_file)
+        elif sys.platform.startswith('darwin'):
+            subprocess.Popen(['afplay', sound_file])
+    except Exception as e:
+        messagebox.showerror("Error", f"Could not play sound: {e}")
 
 def play_fart():
-    try:
-        pygame.mixer.music.load(FART_SOUND)
-        pygame.mixer.music.play()
-    except Exception as e:
-        messagebox.showerror("Error", f"Could not play sound: {e}")
+    play_sound(FART_SOUND)
 
 def play_pee():
-    try:
-        pygame.mixer.music.load(PEE_SOUND)
-        pygame.mixer.music.play()
-    except Exception as e:
-        messagebox.showerror("Error", f"Could not play sound: {e}")
+    play_sound(PEE_SOUND)
 
 root = tk.Tk()
 root.title("Poop Button App")
